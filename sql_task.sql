@@ -4,7 +4,7 @@ WITH distinct_dates AS (
     FROM `[project].[dataset].tblRedemptions-ByDay` rd
     WHERE redemptionDate BETWEEN '2023-10-30' AND '2023-11-05'
 ),
-LatestRedemptions AS (
+latest_redemptions AS (
     SELECT
         r.retailerName,
         rd.redemptionDate,
@@ -23,7 +23,7 @@ LatestRedemptions AS (
 )
 SELECT
     dd.redemptionDate,
-    COALESCE(lr.redemptionCount, 0) AS redemptionCount
+    coalesce(lr.redemptionCount, 0) AS redemptionCount
 FROM
     distinct_dates dd
 LEFT JOIN (
@@ -31,7 +31,7 @@ LEFT JOIN (
         redemptionDate,
         redemptionCount
     FROM
-        LatestRedemptions
+        latest_redemptions
     WHERE
         rn = 1
 ) lr
